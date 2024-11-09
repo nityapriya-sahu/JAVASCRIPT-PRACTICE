@@ -1,0 +1,24 @@
+<!-- Add a click event listener to a button that display an alert when clicked! -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <button id="alert_btn">Alert</button>
+      <script>
+        document.getElementById("alert_btn").addEventListener("click", myFun);
+        function myFun() {
+          alert("Button clicked!");
+        }
+
+        //if getElementsByTagName('button')[0] , add index num of btn
+        //if querySelector('#alert_btn') , add # for id
+      </script>
+    </div>
+  </body>
+</html>
