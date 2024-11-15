@@ -1,0 +1,142 @@
+====================CORRECT===============================
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Equalizer Animation with Stretching Boxes</title>
+    <style>
+      body {
+        /* font-family: Arial, sans-serif; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        /* background-color: #f4f4f4; */
+      }
+
+      .black-box {
+        width: 500px;
+        height: 200px;
+        background-color: black;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      .color-box {
+        width: 100%;
+        height: 40px;
+        border-radius: 1px;
+        position: relative;
+        transition: height 0.3s ease;
+        transform-origin: bottom; /* Ensures it stretches from the bottom */
+      }
+
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        /* background-color: #007bff;
+        color: white; */
+        cursor: pointer;
+        border-radius: 2px;
+      }
+
+      button:disabled {
+        background-color: #ccc;
+      }
+
+      button:hover:not(:disabled) {
+        background-color: #0056b3;
+      }
+
+      @keyframes stretch {
+        0%,
+        100% {
+          height: 40px; /* Starting and ending height */
+        }
+        50% {
+          height: 100%; /* Maximum stretch height */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="black-box">
+      <div class="color-box" id="box1" style="background-color: #a64dff"></div>
+      <div class="color-box" id="box2" style="background-color: #ff4dff"></div>
+      <div class="color-box" id="box3" style="background-color: #ff4d4d"></div>
+      <div class="color-box" id="box4" style="background-color: #ffa64d"></div>
+      <div class="color-box" id="box5" style="background-color: #ffff4d"></div>
+    </div>
+    <div style="display: flex">
+      <button id="startButton" style="background-color: green; color: white">
+        Start
+      </button>
+      <button id="resetButton" style="background-color: purple; color: white">
+        Reset
+      </button>
+      <button
+        id="stopButton"
+        style="background-color: red; color: white"
+        disabled
+      >
+        Stop
+      </button>
+    </div>
+
+    <script>
+      let animationIntervals = [];
+
+      // Function to start the "stretch" animation for each box
+      function startStretch() {
+        const colorBoxes = document.querySelectorAll(".color-box");
+        colorBoxes.forEach((box, index) => {
+          // Create an individual animation interval for each box with varying speeds
+          const interval = setInterval(() => {
+            box.style.animation = `stretch 0.9s ease infinite`;
+          }, 500 + index * 200); // Stagger each box's movement
+          animationIntervals.push(interval);
+        });
+      }
+
+      // Start the stretching effect
+      document.getElementById("startButton").addEventListener("click", () => {
+        startStretch();
+        document.getElementById("startButton").disabled = true;
+        document.getElementById("stopButton").disabled = false;
+      });
+
+      // Stop the stretching effect
+      document.getElementById("stopButton").addEventListener("click", () => {
+        const colorBoxes = document.querySelectorAll(".color-box");
+        colorBoxes.forEach((box) => {
+          box.style.animation = ""; // Stop animation
+        });
+        animationIntervals.forEach((interval) => clearInterval(interval));
+        animationIntervals = [];
+        document.getElementById("startButton").disabled = false;
+        document.getElementById("stopButton").disabled = true;
+      });
+
+      // Reset colors and stop animation
+      document.getElementById("resetButton").addEventListener("click", () => {
+        const colorBoxes = document.querySelectorAll(".color-box");
+        colorBoxes.forEach((box) => {
+          box.style.animation = ""; // Stop any animations
+          box.style.height = "40px"; // Reset height to initial state
+        });
+        animationIntervals.forEach((interval) => clearInterval(interval));
+        animationIntervals = [];
+        document.getElementById("startButton").disabled = false;
+        document.getElementById("stopButton").disabled = true;
+      });
+    </script>
+  </body>
+</html>
